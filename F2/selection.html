@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection des Joueurs - Composition d'Équipes de Football</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sélectionnez vos joueurs</h1>
+        <div class="filters">
+            <select id="position-filter">
+                <option value="">Tous les postes</option>
+                <option value="attaquant">Attaquant</option>
+                <option value="milieu">Milieu</option>
+                <option value="defenseur">Défenseur</option>
+                <option value="gardien">Gardien</option>
+            </select>
+            <input type="text" id="search-bar" placeholder="Rechercher un joueur...">
+        </div>
+    </header>
+    <main>
+        <div class="player-list">
+            <!-- Exemple de joueur -->
+            <div class="player-card" data-position="attaquant" data-name="Lionel Messi">
+                <img src="messi.jpg" alt="Lionel Messi">
+                <h3>Lionel Messi</h3>
+                <p>Attaquant - Paris Saint-Germain</p>
+                <button class="add-to-team">Ajouter à l'équipe</button>
+            </div>
+            <!-- Ajoutez plus de joueurs ici -->
+        </div>
+    </main>
+    <footer>
+        <a href="team.html" class="cta-button">Voir mon équipe</a>
+    </footer>
+</body>
+</html>

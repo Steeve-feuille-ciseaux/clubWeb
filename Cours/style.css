@@ -1,0 +1,38 @@
+body {
+    font-family: 'Georgia', serif;
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
+    background-color: #fdf6e3;
+}
+.book {
+    width: 80%;
+    max-width: 900px;
+    margin: 20px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+h1, h2, h3 {
+    color: #3a3a3a;
+    text-align: center;
+}
+p, ul {
+    text-align: justify;
+    font-size: 18px;
+    color: #333;
+}
+ul {
+    margin: 10px 0 20px 40px;
+}
+.page {
+    padding: 20px;
+    border-bottom: 2px solid #ddd;
+}
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
+    color: #666;
+}

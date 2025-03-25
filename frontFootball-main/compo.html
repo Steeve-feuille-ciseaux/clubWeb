@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="asset/css/compo.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="form-group">
+                <label>Numéro du joueur</label>
+                <input type="number" class="input-field" min="1" max="99">
+            </div>
+            <div class="form-group">
+                <label>Nom du joueur</label>
+                <input type="text" class="input-field" placeholder="Entrez le nom">
+            </div>
+            <div class="form-group">
+                <label>Position</label>
+                <select class="input-field">
+                    <option value="GK">Gardien</option>
+                    <option value="DD">Défenseur droit</option>
+                    <option value="DC">Défenseur central</option>
+                    <option value="DG">Défenseur gauche</option>
+                    <option value="MD">Milieu droit</option>
+                    <option value="MC">Milieu central</option>
+                    <option value="MG">Milieu gauche</option>
+                    <option value="AT">Attaquant</option>
+                </select>
+            </div>
+            <button class="add-button">Ajouter le joueur</button>
+        </div>
+        <div class="content">
+            <div class="pitch">
+                <div class="center-line"></div>
+                <div class="center-circle"></div>
+                <div class="penalty-area penalty-area-top"></div>
+                <div class="penalty-area penalty-area-bottom"></div>
+                
+                <div class="player-box goalkeeper">GK</div>
+                
+                <div class="player-box defender-1">DD</div>
+                <div class="player-box defender-2">DC</div>
+                <div class="player-box defender-3">DC</div>
+                <div class="player-box defender-4">DG</div>
+                
+                <div class="player-box midfielder-1">MD</div>
+                <div class="player-box midfielder-2">MC</div>
+                <div class="player-box midfielder-3">MC</div>
+                <div class="player-box midfielder-4">MG</div>
+                
+                <div class="player-box forward-1">AT</div>
+                <div class="player-box forward-2">AT</div>
+            </div>
+            
+            <div class="sidebar">
+                <h3>Joueurs sélectionnés</h3>
+                
+                <div class="player-list">
+                    <h4>Attaquant</h4>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                </div>
+                
+                <div class="player-list">
+                    <h4>Milieu offensif</h4>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                </div>
+
+                <div class="player-list">
+                    <h4>Milieu defensif</h4>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                </div>
+                
+                <div class="player-list">
+                    <h4>Défenseur</h4>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                </div>
+                
+                <div class="player-list">
+                    <h4>Gardien</h4>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                    <div class="player-item">7 - Hugo Lloris</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
