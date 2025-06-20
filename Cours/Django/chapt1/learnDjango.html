@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Installer Django - Guide rapide</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <main>
+        <h1>Comment installer Django (depuis zéro)</h1>
+
+        <section>
+            <h2>1. Installer Python</h2>
+            <p>Télécharge et installe Python 3 depuis <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer">python.org</a>.</p>
+            <p>Vérifie l'installation avec :</p>
+            <pre><code>python --version</code></pre>
+        </section>
+
+        <section>
+            <h2>2. Créer un environnement virtuel (optionnel)</h2>
+            <p>Dans le dossier de ton projet, crée un environnement virtuel :</p>
+            <pre><code>python -m venv env</code></pre>
+            <p>Active-le :</p>
+            <ul>
+                <li>Windows : <code>.\env\Scripts\activate</code></li>
+                <li>macOS/Linux : <code>source env/bin/activate</code></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Installer Django</h2>
+            <pre><code>pip install django</code></pre>
+        </section>
+
+        <section>
+            <h2>4. Vérifier l'installation</h2>
+            <pre><code>django-admin --version</code></pre>
+        </section>
+
+        <section>
+            <h2>5. Créer un projet Django</h2>
+            <pre><code>django-admin startproject monprojet</code></pre>
+        </section>
+
+        <section>
+            <h2>6. Lancer le serveur</h2>
+            <pre><code>cd monprojet
+python manage.py runserver</code></pre>
+        </section>
+
+        <section>
+            <h2>7. Ouvrir dans le navigateur</h2>
+            <p>Visite <a href="http://127.0.0.1:8000" target="_blank" rel="noopener noreferrer">http://127.0.0.1:8000</a> pour voir la page de bienvenue Django.</p>
+        </section>
+
+        <section>
+            <h2>Résumé rapide</h2>
+            <pre><code>mkdir monprojet-django
+cd monprojet-django
+python -m venv env
+# Windows
+.\env\Scripts\activate
+# macOS/Linux
+source env/bin/activate
+pip install django
+django-admin startproject monprojet
+cd monprojet
+python manage.py runserver
+</code></pre>
+        </section>
+        <p>Si tu souhaites, je peux aussi t’expliquer comment créer ta première page, ou gérer une base de données !
+Tu veux ?</p>
+    </main>
+</body>
+</html>
