@@ -18,61 +18,86 @@
                 <li><strong>Créer une application :</strong>
                     <pre><code>python manage.py startapp pages</code></pre>
                     <p>Cette commande crée un dossier avec la structure suivante :</p>
-                    <pre><code>pages/
-    __init__.py
-    admin.py
-    apps.py
-    models.py
-    tests.py
-    views.py
-    migrations/</code></pre>
+                    <pre><code>                            pages/
+                                __init__.py
+                                admin.py
+                                apps.py
+                                models.py
+                                tests.py
+                                views.py
+                                migrations/</code></pre>
                 </li>
 
-                <li><strong>Déclarer l’application dans <code>settings.py</code> :</strong>
+                <li><strong>Déclarer l’application dans <code> monprojet/settings.py</code> :</strong>
                     <p>Ouvre le fichier <code>settings.py</code> dans le dossier du projet (par exemple <code>test2/settings.py</code> ou <code>config/settings.py</code> selon ta structure).</p>
                     <p>Repère la section suivante :</p>
-                    <pre><code>INSTALLED_APPS = [
-    ...
-]</code></pre>
+                    <pre><code>                            INSTALLED_APPS = [
+                                ...
+                            ]</code></pre>
                     <p>Et ajoute <code>'pages'</code> à la liste, comme ceci :</p>
-                    <pre><code>INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'pages',  # 👈 ajoute cette ligne
-]</code></pre>
+                    <pre><code>                            INSTALLED_APPS = [
+                                'django.contrib.admin',
+                                'django.contrib.auth',
+                                'django.contrib.contenttypes',
+                                'django.contrib.sessions',
+                                'django.contrib.messages',
+                                'django.contrib.staticfiles',
+                                'pages',  # 👈 ajoute cette ligne
+                            ]</code></pre>
                     <p>Optionnellement, tu peux aussi écrire :</p>
                     <pre><code>'pages.apps.PagesConfig',</code></pre>
                     <p>Les deux fonctionnent, mais la seconde est plus explicite.</p>
                 </li>
 
-                <li><strong>Créer une vue dans <code>pages/views.py</code> :</strong>
-                    <pre><code>from django.http import HttpResponse
+                <li><strong>Créer une vue dans <code> monprojet/pages/views.py</code> :</strong>
+                    <p>Ouvre le fichier pages/views.py dans le dossier pages de ton application.</p>
+                    <p>Remplace son contenu ou ajoute cette fonction à la fin du fichier :</p>
+                    <pre><code>                                from django.http import HttpResponse
 
-def home(request):
-    return HttpResponse("Bonjour, Django !")</code></pre>
+                                    def home(request):
+                                return HttpResponse("Bonjour, Django !")</code></pre>
+                    <p>Explication</p>
+                    <ul>
+                        <li>HttpResponse(...) permet de retourner un simple texte dans le navigateur.</li>
+                        <li>La fonction home() est une vue : Django l'appelle quand un utilisateur visite une certaine URL.</li>
+                        <li>request est un objet représentant la requête HTTP envoyée par le navigateur.</li>
+                    </ul>
                 </li>
 
-                <li><strong>Créer <code>pages/urls.py</code> :</strong>
-                    <pre><code>from django.urls import path
-from . import views
+                <br>
 
-urlpatterns = [
-    path('', views.home, name='home'),
-]</code></pre>
+                <li><strong>Créer une page dans<code> monprojet/pages/urls.py</code> :</strong>
+                    <p>si absent, créer le fichier pages/urls.py il est dans le dossier pages de ton application.</p>
+                    <p>crée ce fichier avec la structure suivante :</p>
+                    <pre><code>                            pages/
+                                __init__.py
+                                admin.py
+                                apps.py
+                                models.py
+                                tests.py
+                                urls.py
+                                views.py
+                                migrations/</code></pre>
+                </li>
+                    <p>Remplace son contenu ou ajoute cette fonction à la fin du fichier :</p>
+                    <pre><code>                        from django.urls import path
+                        from . import views
+
+                        urlpatterns = [
+                            path('', views.home, name='home'),
+                        ]</code></pre>
                 </li>
 
-                <li><strong>Ajouter les URLs de l'app dans <code>monprojet/urls.py</code> :</strong>
-                    <pre><code>from django.urls import path, include
-from django.contrib import admin
+                <li><strong>Ajouter les URLs de l'app dans <code> monprojet/monprojet/urls.py</code> :</strong>
+                    <p>Ouvre le fichier pages/views.py dans le dossier pages de ton application.</p>
+                    <p>Remplace son contenu ou ajoute cette fonction à la fin du fichier :</p>
+                    <pre><code>                        from django.contrib import admin
+                        from django.urls import path, include
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('pages.urls')),
-]</code></pre>
+                        urlpatterns = [
+                            path('admin/', admin.site.urls),
+                            path('', include('pages.urls')),
+                        ]</code></pre>
                 </li>
             </ol>
 
