@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Django CRUD - Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <h1>Créer un CRUD avec Django</h1>
+
+        <section>
+            <h2>1. Créer le projet et l'application</h2>
+            <pre><code>django-admin startproject moncrud
+cd moncrud
+python manage.py startapp blog</code></pre>
+        </section>
+
+        <section>
+            <h2>2. Ajouter l'application dans settings.py</h2>
+            <pre><code>INSTALLED_APPS = [
+    ...
+    'blog',
+]</code></pre>
+        </section>
+
+        <section>
+            <h2>3. Modèle Article (models.py)</h2>
+            <pre><code>from django.db import models
+
+class Article(models.Model):
+    titre = models.CharField(max_length=200)
+    contenu = models.TextField()
+    date_pub = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.titre</code></pre>
+        </section>
+
+        <section>
+            <h2>4. Migrer la base de données</h2>
+            <pre><code>python manage.py makemigrations
+python manage.py migrate</code></pre>
+        </section>
+
+        <section>
+            <h2>5. Créer les vues (views.py)</h2>
+            <pre><code>def liste_articles(request):
+    articles = Article.objects.all()
+    return render(request, 'blog/liste.html', {'articles': articles})
+
+def detail_article(request, id):
+    article = get_object_or_404(Article, pk=id)
+    return render(request, 'blog/detail.html', {'article': article})
+
+def ajouter_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('liste')
+    else:
+        form = ArticleForm()
+    return render(request, 'blog/form.html', {'form': form})
+
+def modifier_article(request, id):
+    article = get_object_or_404(Article, pk=id)
+    form = ArticleForm(request.POST or None, instance=article)
+    if form.is_valid():
+        form.save()
+        return redirect('liste')
+    return render(request, 'blog/form.html', {'form': form})
+
+def supprimer_article(request, id):
+    article = get_object_or_404(Article, pk=id)
+    if request.method == 'POST':
+        article.delete()
+        return redirect('liste')
+    return render(request, 'blog/supprimer.html', {'article': article})</code></pre>
+        </section>
+
+        <section>
+            <h2>6. Créer un formulaire (forms.py)</h2>
+            <pre><code>from django import forms
+from .models import Article
+
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['titre', 'contenu']</code></pre>
+        </section>
+
+        <section>
+            <h2>7. Définir les URLs</h2>
+            <h3>Dans blog/urls.py</h3>
+            <pre><code>from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.liste_articles, name='liste'),
+    path('article/&lt;int:id&gt;/', views.detail_article, name='detail'),
+    path('ajouter/', views.ajouter_article, name='ajouter'),
+    path('modifier/&lt;int:id&gt;/', views.modifier_article, name='modifier'),
+    path('supprimer/&lt;int:id&gt;/', views.supprimer_article, name='supprimer'),
+]</code></pre>
+
+            <h3>Dans moncrud/urls.py</h3>
+            <pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('blog.urls')),
+]</code></pre>
+        </section>
+
+        <section>
+            <h2>8. Templates HTML à créer</h2>
+
+            <h3>liste.html</h3>
+            <pre><code>&lt;h1&gt;Articles&lt;/h1&gt;
+&lt;a href="{% url 'ajouter' %}"&gt;Ajouter un article&lt;/a&gt;
+&lt;ul&gt;
+  {% for article in articles %}
+    &lt;li&gt;
+      &lt;a href="{% url 'detail' article.id %}"&gt;{{ article.titre }}&lt;/a&gt; |
+      &lt;a href="{% url 'modifier' article.id %}"&gt;Modifier&lt;/a&gt; |
+      &lt;a href="{% url 'supprimer' article.id %}"&gt;Supprimer&lt;/a&gt;
+    &lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;</code></pre>
+
+            <h3>detail.html</h3>
+            <pre><code>&lt;h1&gt;{{ article.titre }}&lt;/h1&gt;
+&lt;p&gt;{{ article.contenu }}&lt;/p&gt;
+&lt;a href="{% url 'liste' %}"&gt;Retour&lt;/a&gt;</code></pre>
+
+            <h3>form.html</h3>
+            <pre><code>&lt;h1&gt;Formulaire&lt;/h1&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {{ form.as_p }}
+    &lt;button type="submit"&gt;Valider&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+            <h3>supprimer.html</h3>
+            <pre><code>&lt;h1&gt;Supprimer {{ article.titre }} ?&lt;/h1&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    &lt;button type="submit"&gt;Oui, supprimer&lt;/button&gt;
+    &lt;a href="{% url 'liste' %}"&gt;Annuler&lt;/a&gt;
+&lt;/form&gt;</code></pre>
+        </section>
+
+        <section>
+            <h2>9. Lancer le serveur</h2>
+            <pre><code>python manage.py runserver</code></pre>
+            <p>Visiter : <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+        </section>
+
+        <div class="button-container">
+            <button onclick="window.history.back()">Retour</button>
+        </div>
+    </main>
+</body>
+</html>
