@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Django – Modifier & Supprimer un Article</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>✏️ Modifier & Supprimer un article – Django</h1>
+
+<section>
+  <h2>1. Vues – <code>views.py</code></h2>
+  <pre><code>def modifier_article(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('liste_articles')
+    else:
+        form = ArticleForm(instance=article)
+    return render(request, 'pages/article_form.html', {'form': form, 'modifier': True})
+
+def supprimer_article(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    if request.method == 'POST':
+        article.delete()
+        return redirect('liste_articles')
+    return render(request, 'pages/article_confirm_delete.html', {'article': article})
+</code></pre>
+</section>
+
+<section>
+  <h2>2. Routes – <code>urls.py</code></h2>
+  <pre><code>path('articles/&lt;int:article_id&gt;/modifier/', modifier_article, name='modifier_article'),
+path('articles/&lt;int:article_id&gt;/supprimer/', supprimer_article, name='supprimer_article'),
+</code></pre>
+</section>
+
+<section>
+  <h2>3. Formulaire de modification – <code>article_form.html</code></h2>
+  <pre><code>&lt;h1&gt;{% if modifier %}Modifier{% else %}Ajouter{% endif %} un article&lt;/h1&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {{ form.as_p }}
+    &lt;button type="submit"&gt;
+        {% if modifier %}Enregistrer les modifications{% else %}Publier{% endif %}
+    &lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2>4. Page de confirmation – <code>article_confirm_delete.html</code></h2>
+  <pre><code>&lt;h1&gt;Supprimer l’article&lt;/h1&gt;
+&lt;p&gt;Es-tu sûr de vouloir supprimer : &lt;strong&gt;{{ article.titre }}&lt;/strong&gt; ?&lt;/p&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    &lt;button type="submit"&gt;Oui, supprimer&lt;/button&gt;
+    &lt;a href="{% url 'liste_articles' %}"&gt;Annuler&lt;/a&gt;
+&lt;/form&gt;
+</code></pre>
+</section>
+
+<section style="text-align:center;">
+  <h2>🚀 Tester</h2>
+  <p>📝 Accède à : <a href="http://localhost:8000/articles/">/articles/</a></p>
+  <p>✅ Clique sur <strong>Modifier</strong> ou <strong>Supprimer</strong> pour tester les actions</p>
+</section>
+
+<div class="button-container">
+    <button onclick="window.history.back()">Retour</button>
+</div>
+
+</body>
+</html>

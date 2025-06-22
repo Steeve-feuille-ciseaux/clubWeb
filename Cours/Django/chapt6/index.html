@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Résumé : Formulaire Ajout Article Django</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Créer un formulaire d’ajout d’article sous Django</h1>
+
+<section>
+  <h2>1. Arborescence minimale</h2>
+  <pre><code>mon_projet/
+├── manage.py
+├── mon_projet/
+│   ├── settings.py
+│   ├── urls.py
+├── pages/
+│   ├── views.py
+│   ├── urls.py        ← à créer
+│   ├── forms.py       ← à créer
+│   ├── templates/
+│   │   └── pages/
+│   │       ├── article_form.html     ← à créer
+│   │       └── article_success.html  ← à créer
+</code></pre>
+</section>
+
+<section>
+  <h2>2. Créer <code>forms.py</code></h2>
+  <pre><code>from django import forms
+from .models import Article
+
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['titre', 'contenu']
+</code></pre>
+</section>
+
+<section>
+  <h2>3. Modifier la vue <code>ajouter_article</code></h2>
+  <pre><code>from django.shortcuts import render
+from .forms import ArticleForm
+
+def ajouter_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'pages/article_success.html')
+    else:
+        form = ArticleForm()
+    return render(request, 'pages/article_form.html', {'form': form})
+</code></pre>
+</section>
+
+<section>
+  <h2>4. Ajouter l’URL dans <code>pages/urls.py</code></h2>
+  <pre><code>from django.urls import path
+from .views import ajouter_article
+
+urlpatterns = [
+    path('ajouter/', ajouter_article, name='ajouter_article'),
+]
+</code></pre>
+
+<p>Et inclure dans <code>mon_projet/urls.py</code> :</p>
+
+<pre><code>from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('pages.urls')),
+]
+</code></pre>
+</section>
+
+<section>
+  <h2>5. Créer les templates HTML</h2>
+  <h3><code>article_form.html</code></h3>
+  <pre><code>&lt;h1&gt;Ajouter un article&lt;/h1&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {{ form.as_p }}
+    &lt;button type="submit"&gt;Publier&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+
+  <h3><code>article_success.html</code></h3>
+  <pre><code>&lt;h2&gt;Article ajouté avec succès !&lt;/h2&gt;
+&lt;a href="/ajouter/"&gt;Ajouter un autre article&lt;/a&gt;
+</code></pre>
+</section>
+
+<section style="text-align:center;">
+  <h2>🚀 Tester :</h2>
+  <p>Accéder à <a href="http://localhost:8000/ajouter/" target="_blank">http://localhost:8000/ajouter/</a> pour voir le formulaire</p>
+  <p>Ajouter un article et vérifier la page de succès</p>
+</section>
+
+<div class="button-container">
+    <button onclick="window.history.back()">Retour</button>
+</div>
+
+</body>
+</html>

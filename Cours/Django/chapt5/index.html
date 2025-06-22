@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Afficher une page HTML dans Django</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>📄 Comment afficher une page HTML dans Django</h1>
+
+    <div class="step">
+        <h2 class="emoji">✅ 1. Créer un projet Django</h2>
+        <pre><code>django-admin startproject monprojet
+cd monprojet
+python manage.py startapp monapp</code></pre>
+    </div>
+
+    <div class="step">
+        <h2 class="emoji">✅ 2. Ajouter l'app dans <code>settings.py</code></h2>
+        <pre><code>INSTALLED_APPS = [
+    # ...
+    'monapp',
+]</code></pre>
+    </div>
+
+    <div class="step">
+        <h2 class="emoji">✅ 3. Créer un fichier HTML</h2>
+        <p>Structure du dossier :</p>
+        <pre><code>monapp/
+├── templates/
+│   └── monapp/
+│       └── page.html</code></pre>
+
+        <p>Contenu de <code>page.html</code> :</p>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Ma page HTML&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Bonjour depuis Django !&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+
+    <div class="step">
+        <h2 class="emoji">✅ 4. Créer une vue</h2>
+        <pre><code>from django.shortcuts import render
+
+def ma_page(request):
+    return render(request, 'monapp/page.html')</code></pre>
+    </div>
+
+    <div class="step">
+        <h2 class="emoji">✅ 5. Définir les URLs</h2>
+        <p>Dans <code>monapp/urls.py</code> :</p>
+        <pre><code>from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('ma-page/', views.ma_page, name='ma_page'),
+]</code></pre>
+
+        <p>Et dans <code>monprojet/urls.py</code> :</p>
+        <pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('monapp.urls')),
+]</code></pre>
+    </div>
+
+    <div class="step">
+        <h2 class="emoji">✅ 6. Lancer le serveur</h2>
+        <pre><code>python manage.py runserver</code></pre>
+        <p>Visite ensuite : <strong>http://127.0.0.1:8000/ma-page/</strong></p>
+        <p>🎉 Tu devrais voir ta page HTML s’afficher !</p>
+    </div>
+
+    <div class="button-container">
+        <button onclick="window.history.back()">Retour</button>
+    </div>
+
+</body>
+</html>

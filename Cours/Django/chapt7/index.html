@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Django – Liste et Détail des Articles</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>🗂️ Gérer l’affichage des articles Django</h1>
+
+<section>
+  <h2>🧱 Arborescence</h2>
+  <pre><code>pages/
+├── views.py
+├── urls.py
+├── templates/
+│   └── pages/
+│       ├── article_list.html
+│       └── article_detail.html
+</code></pre>
+</section>
+
+<section>
+  <h2>🧠 Vue – <code>views.py</code></h2>
+  <pre><code>from django.shortcuts import render, get_object_or_404
+from .models import Article
+
+def liste_articles(request):
+    articles = Article.objects.order_by('-date_pub')
+    return render(request, 'pages/article_list.html', {'articles': articles})
+
+def detail_article(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    return render(request, 'pages/article_detail.html', {'article': article})
+</code></pre>
+</section>
+
+<section>
+  <h2>🌐 URLs – <code>urls.py</code></h2>
+  <pre><code>from django.urls import path
+from .views import liste_articles, detail_article
+
+urlpatterns = [
+    path('articles/', liste_articles, name='liste_articles'),
+    path('articles/&lt;int:article_id&gt;/', detail_article, name='detail_article'),
+]
+</code></pre>
+</section>
+
+<section>
+  <h2>🖼️ Template – <code>article_list.html</code></h2>
+  <pre><code>&lt;h1&gt;Liste des articles&lt;/h1&gt;
+&lt;ul&gt;
+  {% for article in articles %}
+    &lt;li&gt;
+      &lt;a href="{% url 'detail_article' article.id %}"&gt;
+        {{ article.titre }} ({{ article.date_pub|date:"d/m/Y H:i" }})
+      &lt;/a&gt;
+    &lt;/li&gt;
+  {% empty %}
+    &lt;li&gt;Aucun article disponible.&lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;
+&lt;a href="{% url 'ajouter_article' %}"&gt;Ajouter un article&lt;/a&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2>📄 Template – <code>article_detail.html</code></h2>
+  <pre><code>&lt;h1&gt;{{ article.titre }}&lt;/h1&gt;
+&lt;p&gt;&lt;em&gt;Publié le {{ article.date_pub|date:"d/m/Y H:i" }}&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;
+  {{ article.contenu|linebreaks }}
+&lt;/div&gt;
+&lt;a href="{% url 'liste_articles' %}"&gt;← Retour à la liste&lt;/a&gt;
+</code></pre>
+</section>
+
+<section style="text-align: center;">
+  <h2>🚀 Tester</h2>
+  <p>📝 Accède à : <strong><a href="http://localhost:8000/articles/">/articles/</a></strong><br>
+  ➕ Clique sur un article pour voir son contenu</p>
+</section>
+
+<div class="button-container">
+    <button onclick="window.history.back()">Retour</button>
+</div>
+
+</body>
+</html>

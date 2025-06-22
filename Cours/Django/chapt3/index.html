@@ -13,28 +13,92 @@
             <h2>1. Gérer une base de données</h2>
 
             <h3>Créer un modèle dans <code>pages/models.py</code> :</h3>
-            <pre><code>from django.db import models
+            <p>Ouvre le fichier pages/models.py dans le dossier pages de ton application.</p>
+            <p>Remplace son contenu ou ajoute cette fonction à la fin du fichier :</p>
+            <pre><code>            from django.db import models
 
-class Article(models.Model):
-    titre = models.CharField(max_length=100)
-    contenu = models.TextField()
-    date_pub = models.DateTimeField(auto_now_add=True)
+            class Article(models.Model):
+                titre = models.CharField(max_length=100)
+                contenu = models.TextField()
+                date_pub = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.titre</code></pre>
+                def __str__(self):
+                    return self.titre</code></pre>
+            <a href="modèle.html">détails de la commande</a>
 
             <h3>Créer la base de données :</h3>
-            <pre><code>python manage.py makemigrations
-python manage.py migrate</code></pre>
+            <pre><code>                python manage.py makemigrations
+                python manage.py migrate</code></pre>
+            <p>Tu dois exécuter ces commandes <strong>dans le terminal, à la racine de ton projet Django,</strong>  c’est-à-dire là où se trouve le fichier manage.py.</p>
+            <p>Ton arborescence de projet ressemble à quelque chose comme :</p>
+            <pre><code>
+mon_projet/
+│
+├── manage.py
+├── pages/
+├── mon_projet/
+├── db.sqlite3  <-- (si déjà créé)
+            </code></pre>
+            <p>Tu dois être dans le dossier <strong>mon_projet/ (le premier niveau)</strong>, là où est <strong>manage.py.</strong></p>
+            
+            <h3>Explications des commandes</h3>
+            <p><strong>1. Créer les fichiers de migration :</strong></p>
+            <pre><code>python manage.py makemigrations</code></pre>
+            <p>Cette commande génère des fichiers dans le dossier <code>migrations/</code> de chaque application. Ces fichiers décrivent les modifications à apporter à la base de données.</p>
+
+            <p><strong>2. Appliquer les migrations à la base de données :</strong></p>
+            <pre><code>python manage.py migrate</code></pre>
+            <p>Cette commande crée ou modifie les tables dans la base de données en fonction des migrations générées.</p>
+
+            <p><strong>Astuce :</strong> Si le fichier <strong>db.sqlite3</strong> (ou autre base de données) n'existe pas encore, il sera automatiquement créé lors de l'exécution de <strong>migrate</strong>.</p>
 
             <h3>Enregistrer le modèle dans l’admin :</h3>
+            <p>Ouvre le fichier <strong>pages/admin.py</strong> dans le dossier pages de ton projet.</p>
+            <p>Ton arborescence de projet ressemble à quelque chose comme :</p>
+            <pre><code>
+mon_projet/
+├── mon_app/
+│   ├── admin.py       ← C'est ici que tu ajoutera le code
+│   ├── models.py      ← Ton modèle Article est ici
+│   ├── views.py
+│   └── ...
+├── manage.py
+            </code></pre>
+            <p>Remplace son contenu ou ajoute cette fonction à la fin du fichier :</p>
+
             <pre><code>from django.contrib import admin
 from .models import Article
 
 admin.site.register(Article)</code></pre>
 
+            <h3>🧠 Explication ligne par ligne</h3>
+            <table border="1" cellpadding="5" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Ligne</th>
+                    <th>Rôle</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>from django.contrib import admin</code></td>
+                    <td>Importe le module d'administration fourni par Django.</td>
+                </tr>
+                <tr>
+                    <td><code>from .models import Article</code></td>
+                    <td>Importe le modèle <strong>Article</strong> défini dans ton fichier <strong>models.py</strong>.</td>
+                </tr>
+                <tr>
+                    <td><code>admin.site.register(Article)</code></td>
+                    <td>Enregistre le modèle dans l’interface d’administration. Cela permet d’ajouter, modifier et supprimer des articles via <strong>/admin</strong>.</td>
+                </tr>
+                </tbody>
+            </table>
+
             <h3>Créer un superutilisateur :</h3>
             <pre><code>python manage.py createsuperuser</code></pre>
+
+            <a href="admin.html">détails de la commande</a>
 
             <p>Accès à l’administration : <a href="http://127.0.0.1:8000/admin">http://127.0.0.1:8000/admin</a></p>
         </section>
