@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLite vs MySQL - Comparaison</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <h1>Comparaison entre SQLite et MySQL</h1>
+
+        <section>
+            <h2>SQLite</h2>
+            <p>SQLite est une base de données relationnelle légère, souvent utilisée dans des projets de petite à moyenne taille.</p>
+
+            <h3>Avantages de SQLite</h3>
+            <ul>
+                <li><strong>Légèreté :</strong> SQLite est une base de données embarquée, ce qui signifie qu'elle fonctionne directement à partir de fichiers locaux sans nécessiter de serveur externe.</li>
+                <li><strong>Simplicité d’utilisation :</strong> Pas de configuration serveur nécessaire, ce qui la rend idéale pour des projets simples ou des environnements locaux.</li>
+                <li><strong>Vitesse pour les petites applications :</strong> Pour les projets qui ne nécessitent pas une gestion de grandes quantités de données simultanées, SQLite est souvent plus rapide.</li>
+                <li><strong>Pas besoin d'un serveur dédié :</strong> SQLite est idéale pour les applications simples, les prototypes, ou les applications mobiles.</li>
+                <li><strong>Gestion des fichiers locaux :</strong> SQLite stocke ses données dans un fichier local, ce qui est pratique pour les applications mobiles ou de bureau.</li>
+            </ul>
+
+            <h3>Inconvénients de SQLite</h3>
+            <ul>
+                <li><strong>Limité pour les projets volumineux :</strong> N’est pas conçu pour gérer des milliers ou millions de connexions simultanées.</li>
+                <li><strong>Pas d'outils d'administration robustes :</strong> Moins d'outils d'analyse et de gestion en comparaison avec MySQL.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>MySQL</h2>
+            <p>MySQL est une base de données relationnelle très populaire, particulièrement utilisée pour les applications web et les systèmes plus grands.</p>
+
+            <h3>Avantages de MySQL</h3>
+            <ul>
+                <li><strong>Scalabilité :</strong> MySQL peut gérer une grande quantité de données et de connexions simultanées, idéal pour des applications plus grandes.</li>
+                <li><strong>Performances pour les gros volumes de données :</strong> MySQL est optimisé pour gérer de grandes quantités de données et des requêtes complexes.</li>
+                <li><strong>Sécurité et contrôle :</strong> Offre une gestion avancée des utilisateurs et des permissions, plus adapté aux applications en production avec des exigences de sécurité élevées.</li>
+                <li><strong>Gestion des requêtes complexes :</strong> Prise en charge des jointures, transactions et indexation pour améliorer la performance.</li>
+                <li><strong>Haute disponibilité et réplication :</strong> Fonctionnalités de réplication des données pour garantir la haute disponibilité.</li>
+                <li><strong>Communauté et support :</strong> Une grande communauté et des outils professionnels (MySQL Workbench, etc.) pour faciliter l’administration.</li>
+            </ul>
+
+            <h3>Inconvénients de MySQL</h3>
+            <ul>
+                <li><strong>Complexité de la gestion :</strong> Plus complexe à installer et à configurer par rapport à SQLite.</li>
+                <li><strong>Besoin d’un serveur dédié :</strong> MySQL nécessite un serveur pour fonctionner, ce qui peut entraîner des coûts supplémentaires et un besoin en ressources.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Résumé</h2>
+            <p><strong>Utiliser SQLite :</strong> Si tu as un projet léger, avec peu de données ou d’utilisateurs simultanés. Idéal pour les applications locales, les prototypes ou les applications mobiles.</p>
+            <p><strong>Utiliser MySQL :</strong> Si ton projet nécessite une base de données robuste, évolutive et performante. Parfait pour les applications web à grande échelle, les systèmes distribués, et les projets où la sécurité, la gestion des transactions et des données volumineuses sont des priorités.</p>
+        </section>
+
+        <div class="button-container">
+            <button onclick="window.history.back()">Retour</button>
+        </div>
+    </main>
+</body>
+</html>
