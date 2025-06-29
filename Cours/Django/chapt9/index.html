@@ -4,57 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guide d'Intégration de MySQL avec Django</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../assets/gpt.css">
 </head>
 <body>
-    <div class="container">
+    <main>
         <h1>Guide pour Configurer MySQL avec Django</h1>
 
-        <p>Super choix ! 🚀 Si ton projet est scalable et que tu vises une gestion robuste des données à long terme, MySQL est définitivement un excellent choix pour Django. Voici un guide étape par étape pour configurer MySQL avec Django et optimiser ton projet pour une utilisation à grande échelle.</p>
+        <p>🚀 Si ton projet est scalable et que tu vises une gestion robuste des données à long terme, MySQL est un excellent choix avec Django. Voici un guide étape par étape :</p>
 
-        <h2>✅ Étapes pour configurer MySQL avec Django</h2>
+        <section>
+            <h2>✅ 1. Installer MySQL sur macOS</h2>
+            <p>Installe MySQL si ce n’est pas déjà fait :</p>
+            <pre><code>brew install mysql</code></pre>
+            <p>Démarrer MySQL :</p>
+            <pre><code>brew services start mysql</code></pre>
+            <p>Vérifier que MySQL fonctionne :</p>
+            <pre><code>mysql -u root</code></pre>
+            <p>Si tu vois <code>mysql&gt;</code>, c’est que c’est bon.</p>
+        </section>
 
-        <div class="step">
-            <div class="step-header">1. Installer MySQL sur ton Mac (si ce n’est pas déjà fait)</div>
-            <p>Si tu n'as pas encore installé MySQL, voici comment le faire :</p>
-            <pre class="code-block">brew install mysql</pre>
-            <p>• Démarrer MySQL :</p>
-            <pre class="code-block">brew services start mysql</pre>
-            <p>• Vérifier que MySQL fonctionne :</p>
-            <pre class="code-block">mysql -u root</pre>
-            <p>Tu devrais voir le prompt MySQL (<code>mysql&gt;</code>) une fois connecté.</p>
-        </div>
-
-        <div class="step">
-            <div class="step-header">2. Créer une base de données MySQL pour ton projet Django</div>
-            <p>Ouvre une session MySQL et crée une nouvelle base de données pour ton projet Django :</p>
-            <pre class="code-block">mysql -u root</pre>
-            <p>Ensuite, dans MySQL :</p>
-            <pre class="code-block">CREATE DATABASE mon_projet_db CHARACTER SET UTF8;</pre>
-            <p>Tu peux aussi créer un utilisateur spécifique pour ton projet avec des permissions limitées :</p>
-            <pre class="code-block">
-CREATE USER 'django_user'@'localhost' IDENTIFIED BY 'mot_de_passe';
+        <section>
+            <h2>✅ 2. Créer une base de données MySQL</h2>
+            <p>Connecte-toi à MySQL :</p>
+            <pre><code>mysql -u root</code></pre>
+            <p>Puis crée une base de données :</p>
+            <pre><code>CREATE DATABASE mon_projet_db CHARACTER SET UTF8;</code></pre>
+            <p>Et un utilisateur dédié :</p>
+            <pre><code>CREATE USER 'django_user'@'localhost' IDENTIFIED BY 'mot_de_passe';
 GRANT ALL PRIVILEGES ON mon_projet_db.* TO 'django_user'@'localhost';
-FLUSH PRIVILEGES;
-            </pre>
-        </div>
+FLUSH PRIVILEGES;</code></pre>
+        </section>
 
-        <div class="step">
-            <div class="step-header">3. Installer le connecteur MySQL pour Python</div>
-            <p>Django a besoin d'un connecteur MySQL pour interagir avec la base de données.</p>
-            <pre class="code-block">pip3 install mysqlclient</pre>
-            <p>Si tu rencontres des problèmes avec mysqlclient, tu peux essayer PyMySQL :</p>
-            <pre class="code-block">pip3 install pymysql</pre>
-            <p>Et ensuite, dans ton fichier <code>settings.py</code>, ajoute cette ligne en haut :</p>
-            <pre class="code-block">import pymysql
-pymysql.install_as_MySQLdb()</pre>
-        </div>
+        <section>
+            <h2>✅ 3. Installer le connecteur MySQL pour Django</h2>
+            <p>Installe mysqlclient :</p>
+            <pre><code>pip3 install mysqlclient</code></pre>
+            <p>Ou si problème, utilise PyMySQL :</p>
+            <pre><code>pip3 install pymysql</code></pre>
+            <p>Ajoute dans <code>settings.py</code> :</p>
+            <pre><code>import pymysql
+pymysql.install_as_MySQLdb()</code></pre>
+        </section>
 
-        <div class="step">
-            <div class="step-header">4. Configurer la base de données dans settings.py de Django</div>
-            <p>Dans ton projet Django, ouvre le fichier <code>settings.py</code> et configure la connexion MySQL dans la section DATABASES :</p>
-            <pre class="code-block">
-DATABASES = {
+        <section>
+            <h2>✅ 4. Configurer <code>settings.py</code></h2>
+            <p>Remplace la section <code>DATABASES</code> :</p>
+            <pre><code>DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mon_projet_db',
@@ -63,62 +58,47 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
     }
-}
-            </pre>
-        </div>
+}</code></pre>
+        </section>
 
-        <div class="step">
-            <div class="step-header">5. Appliquer les migrations de Django</div>
-            <p>Une fois que la base de données est configurée, il faut appliquer les migrations pour créer les tables Django dans MySQL :</p>
-            <pre class="code-block">python manage.py migrate</pre>
-            <p>Cela va créer toutes les tables nécessaires pour l'administration, l'authentification, et autres fonctionnalités Django dans ta base MySQL.</p>
-        </div>
+        <section>
+            <h2>✅ 5. Appliquer les migrations</h2>
+            <p>Pour créer les tables nécessaires :</p>
+            <pre><code>python manage.py migrate</code></pre>
+        </section>
 
-        <div class="step">
-            <div class="step-header">6. Vérifier la connexion à la base de données</div>
-            <p>Démarre ton serveur Django pour vérifier que tout fonctionne correctement avec la base MySQL :</p>
-            <pre class="code-block">python manage.py runserver</pre>
-            <p>Ensuite, va sur <code>http://127.0.0.1:8000/</code> dans ton navigateur. Si tout est configuré correctement, tu devrais pouvoir accéder à l'interface Django sans problème.</p>
-        </div>
+        <section>
+            <h2>✅ 6. Tester la connexion</h2>
+            <p>Démarre le serveur :</p>
+            <pre><code>python manage.py runserver</code></pre>
+            <p>Ouvre : <a href="http://127.0.0.1:8000" target="_blank">http://127.0.0.1:8000</a></p>
+        </section>
 
-        <div class="step">
-            <div class="step-header">7. Optimiser la performance pour des projets scalables</div>
-            <p>Étant donné que ton projet est scalable, voici quelques conseils pour optimiser la performance de MySQL avec Django :</p>
+        <section>
+            <h2>✅ 7. Optimiser MySQL pour Django (scalable)</h2>
 
-            <div class="tip">
-                <p><strong>a. Indexer les bonnes colonnes</strong></p>
-                <p>L'indexation est cruciale pour les bases de données avec des volumes importants. Utilise des indices sur les colonnes fréquemment utilisées dans les requêtes.</p>
-                <pre class="code-block">
-class MonModel(models.Model):
+            <h3>a. Indexer les bonnes colonnes</h3>
+            <pre><code>class MonModel(models.Model):
     mon_champ = models.CharField(max_length=255)
 
     class Meta:
         indexes = [
             models.Index(fields=['mon_champ']),
-        ]
-                </pre>
-            </div>
+        ]</code></pre>
 
-            <div class="tip">
-                <p><strong>b. Utiliser les requêtes efficaces</strong></p>
-                <p>Évite de charger des données inutiles en utilisant <code>select_related()</code> et <code>prefetch_related()</code> pour optimiser les requêtes liées à d'autres tables.</p>
-                <pre class="code-block">articles = Article.objects.select_related('categorie').all()</pre>
-            </div>
+            <h3>b. Utiliser des requêtes efficaces</h3>
+            <pre><code>articles = Article.objects.select_related('categorie').all()</code></pre>
 
-            <div class="tip">
-                <p><strong>c. Cache des requêtes lourdes</strong></p>
-                <p>Si tu as des requêtes complexes ou des calculs coûteux, tu peux utiliser Django caching pour les résultats de certaines vues ou requêtes SQL.</p>
-            </div>
+            <h3>c. Cacher les requêtes lourdes</h3>
+            <p>Utilise le cache Django pour des vues ou requêtes complexes.</p>
 
-            <div class="tip">
-                <p><strong>d. Django QuerySet Pagination</strong></p>
-                <p>Utilise la pagination pour limiter la quantité de données récupérées par page. Cela permet d'éviter de surcharger la mémoire pour des volumes élevés de données.</p>
-            </div>
-        </div>
+            <h3>d. Paginer les grands ensembles de données</h3>
+            <p>Utilise la pagination pour limiter les données affichées par page.</p>
+        </section>
 
         <div class="button-container">
             <button onclick="window.history.back()">Retour</button>
         </div>
-    </div>
+    </main>
 </body>
 </html>
