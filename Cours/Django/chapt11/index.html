@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SQLite & PowerShell - Solution</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<main>
+
+    <section class="injection">
+        <h3>🔁 Injection du fichier <code>.sql</code></h3>
+        <p>Dans le terminal de VS Code (après installation de sqlite3), tu peux faire :</p>
+        <pre><code>sqlite3 db.sqlite3 &lt; projectFC.sql</code></pre>
+        <p>Cela exécute tout le script SQL dans la base.</p>
+    </section>
+
+    <section class="probleme">
+        <h2>👉 Le problème</h2>
+        <p>En PowerShell, l’opérateur <code>&lt;</code> (redirection d’entrée) n’est pas pris en charge de cette façon.</p>
+    </section>
+
+    <section class="solution">
+        <h2>✅ 🔧 Solutions</h2>
+        <h3>Changer de terminal dans VS Code (recommandé)</h3>
+        <p>Tu peux changer le terminal PowerShell pour utiliser <strong>cmd</strong> ou <strong>Git Bash</strong>, qui acceptent la redirection <code>&lt;</code> comme tu essayais de faire.</p>
+
+        <h4>Étapes :</h4>
+        <ul>
+            <li>Dans VS Code :</li>
+            <li>Clique sur le petit "+" dans la zone du terminal</li>
+            <li>Clique sur la flèche à droite du bouton +</li>
+            <li>Choisis "Select Default Profile"</li>
+            <li>Sélectionne :
+                <ul>
+                    <li><strong>Command Prompt (cmd)</strong></li>
+                    <li>ou <strong>Git Bash</strong> (si tu l’as installé avec Git)</li>
+                </ul>
+            </li>
+            <li>Ferme et rouvre le terminal (<code>Ctrl + `</code>)</li>
+            <li>Puis tape ta commande :</li>
+        </ul>
+
+        <pre><code>sqlite3 db.sqlite3 &lt; projectFC.sql</code></pre>
+    </section>
+
+    <section class="verification">
+        <h3>🔹 1. Vérifier si SQLite est installé</h3>
+        <p>Dans le terminal VS Code (ou ton terminal système), tape :</p>
+        <pre><code>sqlite3 --version</code></pre>
+        <p>Si tu as un message comme "commande introuvable" ou "not recognized", alors il faut installer SQLite.</p>
+    </section>
+
+    <section class="installation">
+        <h3>🔹 2. Installer SQLite selon ton système</h3>
+        <h4>🪟 Sous Windows :</h4>
+        <ul>
+            <li>Va sur : <a href="https://www.sqlite.org/download.html" target="_blank">https://www.sqlite.org/download.html</a></li>
+            <li>Télécharge : <code>sqlite-tools-win32-x86-*.zip</code></li>
+            <li>Dézippe le dossier dans un répertoire facile d’accès (par ex. <code>C:\sqlite</code>)</li>
+            <li>Ajoute le chemin à l’environnement :
+                <ul>
+                    <li>Ouvre le Panneau de configuration → Système → Variables d’environnement</li>
+                    <li>Dans <code>PATH</code>, ajoute le dossier où se trouve <code>sqlite3.exe</code></li>
+                </ul>
+            </li>
+            <li>Redémarre VS Code et essaie :</li>
+        </ul>
+        <pre><code>sqlite3 --version</code></pre>
+        <a href="https://www.youtube.com/watch?v=FsiyOAkC0P4" target="_blank" rel="noopener noreferrer">Tuto youtube</a>
+    </section>
+
+    <section class="creation">
+        <h3>🔹 3. Une fois SQLite installé</h3>
+        <p>Place-toi dans le dossier où est ton fichier <code>.sql</code>, puis exécute :</p>
+        <pre><code>sqlite3 db.sqlite3 &lt; projectFC.sql</code></pre>
+        <p>Cela va créer le fichier <code>db.sqlite3</code> à partir du script SQL.</p>
+
+        <h4>Ensuite (rappel rapide) :</h4>
+        <ul>
+            <li>Lancer Django avec ce fichier SQLite</li>
+            <li>Faire :</li>
+        </ul>
+        <pre><code>python manage.py inspectdb &gt; monapp/models.py</code></pre>
+        <p>Poursuivre avec vues, admin, etc.</p>
+    </section>
+
+    <div class="button-container">
+        <button onclick="window.history.back()">Retour</button>
+    </div>
+
+</main>
+
+</body>
+</html>

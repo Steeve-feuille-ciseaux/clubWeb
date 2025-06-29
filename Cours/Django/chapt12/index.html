@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Guide Django - Génération de l'interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<main>
+
+    <section>
+        <h3>🔹 1. Générer les modèles Django</h3>
+        <p>Tu dois avoir une app Django (ex : <code>monapp</code>), et exécuter la commande suivante :</p>
+        <pre><code>python manage.py inspectdb &gt; monapp/models.py</code></pre>
+        <p>🔁 Cela génère des modèles à partir des tables présentes dans <code>db.sqlite3</code>.</p>
+    </section>
+
+    <section>
+        <h3>🔹 2. Configurer ton application</h3>
+        <p>Dans <code>settings.py</code> :</p>
+        <pre><code>INSTALLED_APPS = [
+    ...
+    'monapp',  # ← Ajoute ton app ici
+]</code></pre>
+    </section>
+
+    <section>
+        <h3>🔹 3. Configurer l’admin Django</h3>
+        <p>Dans <code>monapp/admin.py</code>, enregistre les modèles :</p>
+        <pre><code>from django.contrib import admin
+from .models import MaTable, AutreTable
+
+admin.site.register(MaTable)
+admin.site.register(AutreTable)</code></pre>
+        <p>📌 Remplace <code>MaTable</code> par les noms des classes générées dans <code>models.py</code>.</p>
+    </section>
+
+    <section>
+        <h3>🔹 4. Créer les fichiers de migration (optionnel)</h3>
+        <p>Django peut ne pas créer de migration initiale pour une base existante. Tu peux :</p>
+        <ul>
+            <li>utiliser les modèles en lecture seule, ou</li>
+            <li>retirer <code>managed = False</code> et faire :</li>
+        </ul>
+        <pre><code>python manage.py makemigrations monapp
+python manage.py migrate</code></pre>
+        <p>⚠️ Supprime <code>managed = False</code> dans les modèles si tu veux générer les migrations.</p>
+    </section>
+
+    <section>
+        <h3>🔹 5. Créer des vues et URL</h3>
+        <p>Exemple de vue dans <code>monapp/views.py</code> :</p>
+        <pre><code>from django.shortcuts import render
+from .models import MaTable
+
+def liste_elements(request):
+    elements = MaTable.objects.all()
+    return render(request, 'monapp/liste.html', {'elements': elements})</code></pre>
+    </section>
+
+    <section>
+        <h3>🔹 6. Configurer les URL</h3>
+        <p>Dans <code>monapp/urls.py</code> :</p>
+        <pre><code>from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.liste_elements, name='liste'),
+]</code></pre>
+
+        <p>Dans <code>project/urls.py</code> :</p>
+        <pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('monapp.urls')),
+]</code></pre>
+    </section>
+
+    <section>
+        <h3>🔹 7. Créer un template HTML</h3>
+        <p>Dans <code>monapp/templates/monapp/liste.html</code> :</p>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Liste des éléments&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Liste des éléments&lt;/h1&gt;
+    &lt;ul&gt;
+        {% for e in elements %}
+            &lt;li&gt;{{ e }}&lt;/li&gt;
+        {% endfor %}
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </section>
+
+    <section>
+        <h3>🔹 8. Lancer le serveur et accéder à l’interface</h3>
+        <pre><code>python manage.py runserver</code></pre>
+        <p>Puis visite :</p>
+        <ul>
+            <li><a href="http://127.0.0.1:8000/" target="_blank">http://127.0.0.1:8000/</a> → Liste</li>
+            <li><a href="http://127.0.0.1:8000/admin/" target="_blank">http://127.0.0.1:8000/admin/</a> → Admin</li>
+        </ul>
+        <p>Crée un superuser si ce n’est pas encore fait :</p>
+        <pre><code>python manage.py createsuperuser</code></pre>
+    </section>
+
+    <section>
+        <h3>🚀 Aller plus loin</h3>
+        <ul>
+            <li>Ajouter des formulaires avec <code>ModelForm</code> pour modifier les données</li>
+            <li>Créer une interface complète en CRUD</li>
+            <li>Ajouter des filtres et recherches dans l’admin</li>
+            <li>Utiliser <strong>Django REST Framework</strong> pour une API</li>
+        </ul>
+    </section>
+
+    <div class="button-container">
+        <button onclick="window.history.back()">Retour</button>
+    </div>
+
+</main>
+
+</body>
+</html>
