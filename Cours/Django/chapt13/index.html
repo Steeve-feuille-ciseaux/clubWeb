@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/gpt.css">
+</head>
+<body>
+    <main>
+  <h1>Configurer Git dans un projet Django</h1>
+
+  <section>
+    <h2>1. Initialiser Git</h2>
+    <p>Place-toi à la racine du projet (là où se trouve <code>manage.py</code>) et exécute :</p>
+    <pre><code>git init</code></pre>
+  </section>
+
+  <section>
+    <h2>2. Créer un fichier <code>.gitignore</code></h2>
+    <p>Ce fichier permet d’exclure les fichiers inutiles du suivi Git (comme les fichiers temporaires ou les migrations).</p>
+    <p>Voici un exemple adapté pour un projet Django :</p>
+    <pre><code># .gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+env/
+venv/
+ENV/
+*.sqlite3
+
+*.log
+*.pot
+*.pyc
+.DS_Store
+
+# Django stuff:
+*.db
+*.sqlite3
+/media
+/staticfiles
+/static_root
+*.mo
+*.pot
+
+# VS Code
+.vscode/
+
+# Migrations
+**/migrations/*.py
+!**/migrations/__init__.py
+</code></pre>
+  </section>
+
+  <section>
+    <h2>3. Ajouter les fichiers</h2>
+    <pre><code>git add .</code></pre>
+  </section>
+
+  <section>
+    <h2>4. Faire un premier commit</h2>
+    <pre><code>git commit -m "Initial commit: Projet Django créé"</code></pre>
+  </section>
+
+  <section>
+    <h2>5. (Optionnel) Lier à GitHub</h2>
+    <p>Crée un dépôt vide sur GitHub, puis :</p>
+    <pre><code>git remote add origin https://github.com/ton_nom/projet-django.git
+git push -u origin master</code></pre>
+  </section>
+
+  <section>
+    <h2>Bonnes pratiques</h2>
+    <ul>
+      <li>Fais des commits réguliers avec des messages clairs.</li>
+      <li>Ne versionne jamais de mots de passe ni de clés secrètes.</li>
+      <li>Utilise un fichier <code>.env</code> pour les variables sensibles (et ajoute-le au <code>.gitignore</code>).</li>
+    </ul>
+  </section>
+
+    <div class="button-container">
+        <button onclick="window.history.back()">Retour</button>
+    </div>
+</main>
+
+</body>
+</html>
