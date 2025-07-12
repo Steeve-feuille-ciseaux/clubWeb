@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Guide Django : Authentification & CRUD</title>
+    <link rel="stylesheet" href="../assets/gpt.css">
+</head>
+<body>
+<main>
+    <h1>Guide Django – Authentification et CRUD avec Formulaires</h1>
+
+    <section>
+        <h2>🔐 Authentification avec Django</h2>
+        <p>Django fournit un système d’authentification intégré.</p>
+
+        <h3>1. Configuration de base</h3>
+        <pre><code>INSTALLED_APPS = [
+    ...
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    ...
+]</code></pre>
+
+        <pre><code>MIDDLEWARE = [
+    ...
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    ...
+]</code></pre>
+
+        <h3>2. Utiliser les vues d’auth Django</h3>
+        <pre><code>from django.contrib.auth import views as auth_views
+from django.urls import path
+
+urlpatterns = [
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+]</code></pre>
+
+        <h3>3. Template de connexion (login.html)</h3>
+        <pre><code>&lt;form method="post"&gt;
+  {% csrf_token %}
+  {{ form.as_p }}
+  &lt;button type="submit"&gt;Se connecter&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+    </section>
+
+    <section>
+        <h2>🔄 CRUD avec formulaires Django</h2>
+        <p>Un exemple simple avec un modèle <code>Article</code>.</p>
+
+        <h3>✅ 1. Modèle</h3>
+        <pre><code>from django.db import models
+
+class Article(models.Model):
+    titre = models.CharField(max_length=100)
+    contenu = models.TextField()
+
+    def __str__(self):
+        return self.titre</code></pre>
+
+        <h3>🧾 2. Formulaire</h3>
+        <pre><code>from django import forms
+from .models import Article
+
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['titre', 'contenu']</code></pre>
+
+        <h3>🧠 3. Vues CRUD</h3>
+        <pre><code>from django.shortcuts import render, get_object_or_404, redirect
+from .models import Article
+from .forms import ArticleForm
+
+# 🟢 CREATE
+def creer_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('liste_articles')
+    else:
+        form = ArticleForm()
+    return render(request, 'articles/formulaire.html', {'form': form})
+
+# 🔵 READ
+def liste_articles(request):
+    articles = Article.objects.all()
+    return render(request, 'articles/liste.html', {'articles': articles})
+
+# 🟠 UPDATE
+def modifier_article(request, id):
+    article = get_object_or_404(Article, id=id)
+    form = ArticleForm(request.POST or None, instance=article)
+    if form.is_valid():
+        form.save()
+        return redirect('liste_articles')
+    return render(request, 'articles/formulaire.html', {'form': form})
+
+# 🔴 DELETE
+def supprimer_article(request, id):
+    article = get_object_or_404(Article, id=id)
+    if request.method == 'POST':
+        article.delete()
+        return redirect('liste_articles')
+    return render(request, 'articles/confirmer_suppression.html', {'article': article})</code></pre>
+
+        <h3>🛣️ 4. Routes (urls.py)</h3>
+        <pre><code>from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.liste_articles, name='liste_articles'),
+    path('ajouter/', views.creer_article, name='ajouter_article'),
+    path('modifier/&lt;int:id&gt;/', views.modifier_article, name='modifier_article'),
+    path('supprimer/&lt;int:id&gt;/', views.supprimer_article, name='supprimer_article'),
+]</code></pre>
+
+        <h3>🖼️ 5. Templates</h3>
+        <h4>formulaire.html</h4>
+        <pre><code>&lt;h2&gt;Formulaire Article&lt;/h2&gt;
+&lt;form method="post"&gt;
+  {% csrf_token %}
+  {{ form.as_p }}
+  &lt;button type="submit"&gt;Enregistrer&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+        <h4>liste.html</h4>
+        <pre><code>&lt;h2&gt;Liste des articles&lt;/h2&gt;
+&lt;a href="{% url 'ajouter_article' %}"&gt;Ajouter un article&lt;/a&gt;
+&lt;ul&gt;
+  {% for article in articles %}
+    &lt;li&gt;
+      {{ article.titre }}
+      &lt;a href="{% url 'modifier_article' article.id %}"&gt;Modifier&lt;/a&gt;
+      &lt;a href="{% url 'supprimer_article' article.id %}"&gt;Supprimer&lt;/a&gt;
+    &lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;</code></pre>
+
+        <h4>confirmer_suppression.html</h4>
+        <pre><code>&lt;h2&gt;Supprimer l'article "{{ article.titre }}" ?&lt;/h2&gt;
+&lt;form method="post"&gt;
+  {% csrf_token %}
+  &lt;button type="submit"&gt;Confirmer&lt;/button&gt;
+  &lt;a href="{% url 'liste_articles' %}"&gt;Annuler&lt;/a&gt;
+&lt;/form&gt;</code></pre>
+    </section>
+</main>
+
+
+    <div class="button-container">
+        <button onclick="window.history.back()">Retour</button>
+    </div>
+</body>
+</html>
